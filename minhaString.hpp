@@ -1,0 +1,1 @@
+//declaraçâo da classe
