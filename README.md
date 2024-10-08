@@ -1,0 +1,1 @@
+# minhaString_M2
