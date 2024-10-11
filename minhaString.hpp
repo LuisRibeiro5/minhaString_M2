@@ -16,12 +16,13 @@ public:
     void upper();
     void lower();
     void title();
-    void snake_case();
-    void camelCase();
+    void to_snake_case();
+    void to_camelCase();
 
-    int str_to_int();
-    float str_to_float();
+    bool verifica_num() const;
+    int str_to_int() const;
+    float str_to_float() const;
 
-    const char* retornaString();
+    const char* retornaString() const;
 };
 

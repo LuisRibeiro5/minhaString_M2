@@ -1,24 +1,28 @@
 //definiçâo da classe
 #include "minhaString.hpp"
 #include <cstring>
+#include <iostream>
 #include <cctype>
+#include <cstdlib>
 
 using namespace std;
 
 MinhaString::MinhaString(){ 
     string = new char[1];
+    const char* aux = "\0";
+    strcpy(string,aux);
 }
 
 MinhaString::MinhaString(const char* other){ 
-    char* string = new char[strlen(other) + 1];
-    strcpy(string,other);
+    string = new char[strlen(other) + 1];
+    strcpy(string, other);
 }
 
 MinhaString::~MinhaString(){
     delete[] string;
 }
 
-const char* MinhaString::retornaString(){
+const char* MinhaString::retornaString()const{
     return this->string;
 }
 
@@ -53,15 +57,15 @@ void MinhaString::upper(){
 void MinhaString::lower(){
     for (int i = 0; i <= strlen(string); i++)
     {
-        if(string[i] >= 'a' &&  string[i] <= 'z'){
-            string[i] + 32;
+        if(string[i] >= 'A' &&  string[i] <= 'Z'){
+            string[i] += 32;
         }
     }
 }
 
 void MinhaString::title(){
     if (string[0] >= 'a' && string[0] <= 'z'){
-        string[0] - 32;
+        string[0] -= 32;
     }
 
     bool eh_espaco = false;
@@ -77,54 +81,54 @@ void MinhaString::title(){
         }
 
         if(eh_espaco){
-            string[i] - 32;
+            if(string[i] >= 'a' &&  string[i] <= 'z'){
+                string[i] -= 32;
+            }
+            eh_espaco = false;
             continue;
         }
 
-        string[i] + 32;
+        if(string[i] >= 'A' &&  string[i] <= 'Z'){
+            string[i] += 32;
+        }
     }
 }
 
-void MinhaString::snake_case(){
+void MinhaString::to_snake_case() {
     int cont = 0;
-    for (int i = 0; i <= strlen(string); i++)
-    {
-        if (string[i] == string[i] - 32)
-        {
+    for (int i = 0; i < strlen(string); i++) { // Alterado <= para < para evitar leitura além do final da string
+        if (isupper(string[i])) { // Verifica se é uma letra maiúscula
             cont++;
         }
-        
     }
 
     char* nova_str = new char[strlen(string) + cont + 1];
     char* ini = nova_str;
 
-    for (int i = 1; i <= strlen(string); i++)
-    {
-        if(!isalpha(string[i]))
-        {
-            *nova_str++ = string[i];
+    for (int i = 0; i < strlen(string); i++) {
+        if (!isalpha(string[i])) {
+            *nova_str++ = string[i]; // Copia caracteres não alfabéticos
             continue;
         }
 
-        if(string[i] == string[i] - 32){
-            *nova_str++ = '_';
-            *nova_str = string[i] + 32; 
-        }else{
-            *nova_str = string[i] + 32;
+        if (isupper(string[i])) { // Se for maiúscula, adiciona um underscore
+            if (i > 0) { // Não adicionar underscore antes do primeiro caractere
+                *nova_str++ = '_';
+            }
+            *nova_str++ = tolower(string[i]); // Converte para minúscula
+        } else {
+            *nova_str++ = string[i]; // Copia o caractere minúsculo
         }
-
-        nova_str++;
     }
-    *nova_str = '\0';
+    *nova_str = '\0'; // Adiciona o terminador nulo
 
-    delete[] string;
-    string = ini;
+    delete[] string; // Libera a memória da string original
+    string = ini; // Atribui a nova string
 }
 
-void MinhaString::camelCase(){
+void MinhaString::to_camelCase(){
     int cont = 0;
-    for (int i = 0; i <= strlen(string); i++)
+    for (int i = 0; i < strlen(string); i++)
     {
         if (string[i] == '_')
         {
@@ -136,11 +140,11 @@ void MinhaString::camelCase(){
     char* nova_str = new char[strlen(string) - cont + 1];
     char* ini = nova_str;
 
-    for (int i = 0; i <= strlen(string); i++)
+    for (int i = 0; i < strlen(string); i++)
     {
         if(string[i] == '_')
         {
-            *nova_str = string[i + 1] + 32;
+            *nova_str = toupper(string[i + 1]);
             nova_str++;
             i++;
             continue;
@@ -150,9 +154,43 @@ void MinhaString::camelCase(){
         nova_str++;
 
     }
-
+    *nova_str = '\0';
     delete[] string;
     string = ini;
 }
 
+bool MinhaString::verifica_num() const {
+    int cont = 0;
+    for (int i = 0; i < strlen(string); i++) {
+        if (!isdigit(string[i]) && string[i] != '.') {
+            return false;
+        }
+
+        if (string[i] == '.') {
+            cont++;
+        }
+    }
+    return (cont <= 1);
+}
+
+
+int MinhaString::str_to_int()const{
+    int num = 0;
+    if (this->verifica_num()){
+        num = atoi(string);
+        return num;
+    }
+    return 0;
+
+}
+
+float MinhaString::str_to_float() const{
+    float num = 0;
+    if (verifica_num()){
+        num = atof(string);
+        return num;
+    }
+    return 0;
+
+}
 
