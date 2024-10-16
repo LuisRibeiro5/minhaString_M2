@@ -96,8 +96,8 @@ void MinhaString::title(){
 
 void MinhaString::to_snake_case() {
     int cont = 0;
-    for (int i = 0; i < strlen(string); i++) { // Alterado <= para < para evitar leitura além do final da string
-        if (isupper(string[i])) { // Verifica se é uma letra maiúscula
+    for (int i = 0; i < strlen(string); i++) { 
+        if (isupper(string[i])) { 
             cont++;
         }
     }
@@ -107,23 +107,23 @@ void MinhaString::to_snake_case() {
 
     for (int i = 0; i < strlen(string); i++) {
         if (!isalpha(string[i])) {
-            *nova_str++ = string[i]; // Copia caracteres não alfabéticos
+            *nova_str++ = string[i]; 
             continue;
         }
 
-        if (isupper(string[i])) { // Se for maiúscula, adiciona um underscore
-            if (i > 0) { // Não adicionar underscore antes do primeiro caractere
+        if (isupper(string[i])) { 
+            if (i > 0) { 
                 *nova_str++ = '_';
             }
-            *nova_str++ = tolower(string[i]); // Converte para minúscula
+            *nova_str++ = tolower(string[i]); 
         } else {
-            *nova_str++ = string[i]; // Copia o caractere minúsculo
+            *nova_str++ = string[i]; 
         }
     }
-    *nova_str = '\0'; // Adiciona o terminador nulo
+    *nova_str = '\0'; 
 
-    delete[] string; // Libera a memória da string original
-    string = ini; // Atribui a nova string
+    delete[] string; 
+    string = ini; 
 }
 
 void MinhaString::to_camelCase(){
