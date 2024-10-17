@@ -93,7 +93,7 @@ void MinhaString::title() {
 }
 void MinhaString::to_snake_case() {
     int cont = 0;
-    for (int i = 0; i < strlen(string); i++) { 
+    for (int i = 1; i < strlen(string); i++) { 
         if (isupper(string[i])) { 
             cont++;
         }
