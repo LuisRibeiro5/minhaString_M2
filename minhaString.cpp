@@ -63,37 +63,34 @@ void MinhaString::lower(){
     }
 }
 
-void MinhaString::title(){
-    if (string[0] >= 'a' && string[0] <= 'z'){
-        string[0] -= 32;
+void MinhaString::title() {
+    if (string[0] >= 'a' && string[0] <= 'z') {
+        string[0] -= 32; 
     }
 
     bool eh_espaco = false;
-    for (int i = 1; i <= strlen(string); i++)
-    {
-        if(string[i] == ' '){
+    for (int i = 1; i <= strlen(string); i++) {
+        if (string[i] == ' ') {
             eh_espaco = true;
             continue;
         }
 
-        if (!isalpha(string[i])){
+        if (!isalpha(string[i])) {
             continue;
         }
 
-        if(eh_espaco){
-            if(string[i] >= 'a' &&  string[i] <= 'z'){
-                string[i] -= 32;
+        if (eh_espaco) {
+            if (string[i] >= 'a' &&  string[i] <= 'z') {
+                string[i] -= 32; 
             }
             eh_espaco = false;
-            continue;
-        }
-
-        if(string[i] >= 'A' &&  string[i] <= 'Z'){
-            string[i] += 32;
+        } else {
+            if (string[i] >= 'A' &&  string[i] <= 'Z') {
+                string[i] += 32; 
+            }
         }
     }
 }
-
 void MinhaString::to_snake_case() {
     int cont = 0;
     for (int i = 0; i < strlen(string); i++) { 
